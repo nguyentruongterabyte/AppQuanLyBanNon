@@ -39,7 +39,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-
+    // glider
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     // RxJava
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
     implementation("io.reactivex.rxjava3:rxjava:3.0.0")
@@ -49,4 +51,11 @@ dependencies {
     implementation("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
     // lottie
     implementation("com.airbnb.android:lottie:6.4.0")
+
+    // neumorphism
+    implementation("com.github.fornewid:neumorphism:0.3.2")
+
+    // Image picker
+    implementation ("com.github.dhaval2404:imagepicker:2.1")
+
 }

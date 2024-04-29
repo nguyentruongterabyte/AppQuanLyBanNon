@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,7 +14,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppQuanLy"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.ChiTietSanPhamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.TimKiemSanPhamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ThemSanPhamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.QuanLySanPhamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ChiTietDonHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.XemDonHangAllActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.XemDonHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.KhachHangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.QuanLyActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="false" />

@@ -1,5 +1,6 @@
 package com.example.appquanly.utils;
 
 public class Utils {
-    public static final String BASE_URL = "http://192.168.1.5/bannon/";
+    public static final String BASE_URL = "http://192.168.1.8/hatshop/";
+    public static final String BASE_IMAGE_URL = "images/";
 }

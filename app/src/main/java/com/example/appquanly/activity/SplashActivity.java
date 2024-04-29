@@ -15,14 +15,17 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Thread thread = new Thread() {
+        Thread thread;
+        thread = new Thread() {
             public void run() {
                 try {
                     sleep(3000);
                 } catch (Exception e) {
                     System.out.println("error" + e.getMessage());
                 } finally {
-
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         };

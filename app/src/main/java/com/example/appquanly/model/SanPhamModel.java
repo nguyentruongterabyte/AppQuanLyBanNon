@@ -1,0 +1,38 @@
+package com.example.appquanly.model;
+
+import java.util.List;
+
+public class SanPhamModel {
+    private boolean success;
+    private String message;
+    private List<SanPham> result;
+
+    public SanPhamModel(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
+
+    public boolean isSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<SanPham> getResult() {
+        return result;
+    }
+
+    public void setResult(List<SanPham> result) {
+        this.result = result;
+    }
+}
