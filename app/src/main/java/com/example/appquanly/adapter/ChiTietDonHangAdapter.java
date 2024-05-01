@@ -2,7 +2,6 @@ package com.example.appquanly.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.appquanly.R;
 import com.example.appquanly.model.SanPham;
+import com.example.appquanly.utils.Utils;
 
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChiTietDonHangAdapter extends RecyclerView.Adapter<ChiTietDonHangAdapter.MyViewHolder> {
@@ -45,7 +44,12 @@ public class ChiTietDonHangAdapter extends RecyclerView.Adapter<ChiTietDonHangAd
         holder.itemTenSPChiTietDonHang.setText(sanPham.getTenSanPham());
         holder.itemSoLuongChiTietDonHang.setText(String.format("x%d", sanPham.getSoLuong()));
         holder.itemGiaChiTietDonHang.setText(dft.format(Double.parseDouble(sanPham.getGiaSanPham())));
-        Glide.with(context).load(sanPham.getHinhAnh()).into(holder.itemImageChiTietDonHang);
+
+        if (sanPham.getHinhAnh().contains("http")) {
+            Glide.with(context).load(sanPham.getHinhAnh()).into(holder.itemImageChiTietDonHang);
+        } else {
+            Glide.with(context).load(Utils.BASE_URL + Utils.BASE_IMAGE_URL + "product/" + sanPham.getHinhAnh()).into(holder.itemImageChiTietDonHang);
+        }
     }
 
     @Override

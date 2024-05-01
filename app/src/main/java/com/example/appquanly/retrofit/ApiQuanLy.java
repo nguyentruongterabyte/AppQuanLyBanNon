@@ -3,14 +3,15 @@ package com.example.appquanly.retrofit;
 import com.example.appquanly.model.DonHangModel;
 import com.example.appquanly.model.ImageFileModel;
 import com.example.appquanly.model.MessageModel;
+import com.example.appquanly.model.DoanhThuModel;
 import com.example.appquanly.model.SanPhamModel;
+import com.example.appquanly.model.SanPhamThongKeModel;
 import com.example.appquanly.model.User;
 
 import io.reactivex.rxjava3.core.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -94,5 +95,13 @@ public interface ApiQuanLy {
             @Part MultipartBody.Part file,
             @Part("maSanPham") RequestBody maSanPham
     );
+
+    // Reports
+    @GET("api/reports/revenue.php")
+    Observable<DoanhThuModel> layBaoCaoDoanhThu(@Query("year") int nam);
+    @GET("api/reports/products.php")
+    Observable<SanPhamThongKeModel> layBaoCaoSanPham(@Query("year") int nam);
+    @GET("api/product/get.php")
+    Observable<DoanhThuModel> laySanPhamById(@Query("maSanPham") int maSanPham);
 }
 

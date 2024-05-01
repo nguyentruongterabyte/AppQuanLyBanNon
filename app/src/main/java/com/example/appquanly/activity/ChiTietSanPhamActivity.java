@@ -1,11 +1,9 @@
 package com.example.appquanly.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,39 +49,31 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     private void setEvent() {
 
         // Xử lý khi nhấn vào nút sửa
-        btnSua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ThemSanPhamActivity.class);
-                intent.putExtra("sanPham", sanPham);
-                startActivity(intent);
-            }
+        btnSua.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ThemSanPhamActivity.class);
+            intent.putExtra("sanPham", sanPham);
+            startActivity(intent);
         });
 
-        btnXoa.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle("Xác nhận xóa")
-                        .setMessage("Bạn có chắc chắn muốn xóa sản phẩm này không?")
-                        .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                            // Xử lý xóa sản phẩm
-                            ProductApiCalls.delete(sanPham.getMaSanPham(), messageModel -> {
-                                if (messageModel.isSuccess()) {
-                                    Toast.makeText(ChiTietSanPhamActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(ChiTietSanPhamActivity.this, messageModel.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }, compositeDisposable);
-                        })
-                        .setNegativeButton(android.R.string.no, null)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
-            }
-        });
+        btnXoa.setOnClickListener(v -> new AlertDialog.Builder(v.getContext())
+                .setTitle("Xác nhận xóa")
+                .setMessage("Bạn có chắc chắn muốn xóa sản phẩm này không?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    // Xử lý xóa sản phẩm
+                    ProductApiCalls.delete(sanPham.getMaSanPham(), messageModel -> {
+                        if (messageModel.isSuccess()) {
+                            Toast.makeText(ChiTietSanPhamActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(ChiTietSanPhamActivity.this, messageModel.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }, compositeDisposable);
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show());
 
     }
 

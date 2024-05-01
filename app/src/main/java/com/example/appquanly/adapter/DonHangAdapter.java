@@ -50,6 +50,7 @@ public class DonHangAdapter extends RecyclerView.Adapter<DonHangAdapter.MyViewHo
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ChiTietDonHangActivity.class);
             intent.putExtra("donHang", donHang);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         });
 

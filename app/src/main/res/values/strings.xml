@@ -51,4 +51,10 @@
     <string name="saveProductButton">Lưu sản phẩm</string>
     <string name="fixButtonTitle">Sửa</string>
     <string name="deleteButtonTitle">Xóa</string>
+    <string name="admin">QUẢN TRỊ</string>
+    <string name="productManagerImageDes">Quản lý sản phẩm image</string>
+    <string name="userManagerImageDes">Quản lý khách hàng image</string>
+    <string name="orderManagerImageDes">Quản lý hóa đơn image</string>
+    <string name="reportImageDes">Thống kê image</string>
+    <string name="select">year\n</string>
 </resources>

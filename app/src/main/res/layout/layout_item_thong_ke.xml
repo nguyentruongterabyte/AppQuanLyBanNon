@@ -1,0 +1,38 @@
+<!-- list_item_doanh_thu.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/imgThang"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/thang1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tvThang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tháng"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</LinearLayout>

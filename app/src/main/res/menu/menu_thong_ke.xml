@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/icTKSP"
+        android:title="Thống kê sản phẩm"
+        app:showAsAction="collapseActionView"
+        />
+    <item
+        android:id="@+id/icDoanhThu"
+        android:title="Doanh thu"
+        />
+    <item
+        android:id="@+id/icCaiDat"
+        android:title="Thoát"
+        />
+</menu>

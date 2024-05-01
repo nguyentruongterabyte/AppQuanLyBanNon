@@ -1,7 +1,8 @@
 package com.example.appquanly.networking;
 
+import androidx.annotation.NonNull;
+
 import com.example.appquanly.Interface.ImageUploadCallback;
-import com.example.appquanly.model.DonHangModel;
 import com.example.appquanly.model.ImageFileModel;
 import com.example.appquanly.model.MessageModel;
 import com.example.appquanly.model.SanPham;
@@ -82,7 +83,7 @@ public class ProductApiCalls {
         Call<ImageFileModel> call = apiQL.uploadFile(fileToUpload, maSanPhamBody);
         call.enqueue(new Callback<ImageFileModel>() {
             @Override
-            public void onResponse(Call<ImageFileModel> call, Response<ImageFileModel> response) {
+            public void onResponse(@NonNull Call<ImageFileModel> call, @NonNull Response<ImageFileModel> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.body());
                 } else {
@@ -91,7 +92,7 @@ public class ProductApiCalls {
             }
 
             @Override
-            public void onFailure(Call<ImageFileModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<ImageFileModel> call, @NonNull Throwable t) {
                 callback.onFailure(t);
             }
         });

@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnThongKe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ThongKeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setControl() {
