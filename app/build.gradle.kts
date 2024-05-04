@@ -59,4 +59,7 @@ dependencies {
     // Image picker
     implementation ("com.github.dhaval2404:imagepicker:2.1")
 
+    // google map
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+
 }

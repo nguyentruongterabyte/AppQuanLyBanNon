@@ -7,6 +7,7 @@ import com.example.appquanly.model.MessageModel;
 import com.example.appquanly.model.DoanhThuModel;
 import com.example.appquanly.model.SanPhamModel;
 import com.example.appquanly.model.SanPhamThongKeModel;
+import com.example.appquanly.model.ToaDoModel;
 import com.example.appquanly.model.User;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -106,5 +107,13 @@ public interface ApiQuanLy {
     // Hóa đơn
     @GET("api/bill/get.php")
     Observable<HoaDonModel> getHoaDon(@Query("maDonHang") int maDonHang);
+
+    // Tọa độ
+    @GET("api/location/get.php")
+    Observable<ToaDoModel> getToaDo();
+
+    @POST("api/location/create.php")
+    @FormUrlEncoded
+    Observable<ToaDoModel> taoTaoDo(@Field("tenViTri") String tenViTri, @Field("kinhDo") Double kinhDo, @Field("viDo") Double viDo);
 }
 

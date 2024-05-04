@@ -72,5 +72,24 @@
             android:id="@+id/btnTK"
             android:contentDescription="@string/reportImageDes" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:weightSum="2"
+        android:layout_marginTop="16dp">
+
+        <ImageButton
+            android:id="@+id/btnViTri"
+            android:layout_width="1dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/productManagerImageDes"
+            android:src="@drawable/location" />
+
+        </LinearLayout>
 
 </LinearLayout>

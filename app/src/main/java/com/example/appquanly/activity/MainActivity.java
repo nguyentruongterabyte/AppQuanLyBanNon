@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 import com.example.appquanly.R;
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton btnSanPham, btnKhachHang, btnThongKe, btnDH;
+    ImageButton btnSanPham, btnKhachHang, btnThongKe, btnDH, btnViTri;
 
 
 
@@ -59,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnViTri.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ViTriCuaHangActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setControl() {
@@ -66,6 +74,6 @@ public class MainActivity extends AppCompatActivity {
         btnKhachHang = findViewById(R.id.btnKH);
         btnThongKe = findViewById(R.id.btnTK);
         btnDH = findViewById(R.id.btnDH);
-
+        btnViTri = findViewById(R.id.btnViTri);
     }
 }
