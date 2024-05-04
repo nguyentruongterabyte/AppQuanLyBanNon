@@ -33,7 +33,7 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
     TextView maDonHang, totalItems, totalCost, tvKH, tvDC, tvPhuongThuc;
     RecyclerView recyclerViewChiTietDonHang;
     Spinner spinnerTrangThai;
-    Button btnSua;
+    Button btnSua, btnPDF;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     DonHang donHang = new DonHang();
 
@@ -49,6 +49,14 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
     }
 
     private void setEvent() {
+        btnPDF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), InHoaDonActivity.class);
+                intent.putExtra("maDonHang", donHang.getMaDonHang());
+                startActivity(intent);
+            }
+        });
         btnSua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,8 +128,6 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
                 recyclerViewChiTietDonHang.setRecycledViewPool(viewPool);
                 ChiTietDonHangAdapter adapter = new ChiTietDonHangAdapter(getApplicationContext(), donHang.getItems());
                 recyclerViewChiTietDonHang.setAdapter(adapter);
-
-
             }
         }
     }
@@ -136,7 +142,7 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
         recyclerViewChiTietDonHang =  findViewById(R.id.recyclerViewChiTietDonHang);
         spinnerTrangThai = findViewById(R.id.spinnerTrangThai);
         btnSua =    findViewById(R.id.btnSua);
-
+        btnPDF = findViewById(R.id.btnPDF);
     }
 
 

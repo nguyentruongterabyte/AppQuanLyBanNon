@@ -57,4 +57,5 @@
     <string name="orderManagerImageDes">Quản lý hóa đơn image</string>
     <string name="reportImageDes">Thống kê image</string>
     <string name="select">year\n</string>
+    <string name="createFilePDF">Xuất file pdf</string>
 </resources>

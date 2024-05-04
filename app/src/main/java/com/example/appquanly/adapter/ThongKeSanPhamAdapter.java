@@ -11,8 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.example.appquanly.model.SanPhamThongKe;
 import com.example.appquanly.R;
+import com.example.appquanly.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,12 @@ public class ThongKeSanPhamAdapter extends ArrayAdapter<SanPhamThongKe> {
             tvTenSP.setText(currentItem.getTenSanPham());
             tvTongSoLuong.setText(String.valueOf(currentItem.getSoLuongTon()));
             tvSoLuongDaBan.setText(String.valueOf(currentItem.getTongSoLuong()));
+
+            if (currentItem.getHinhAnh().contains("http")) {
+                Glide.with(mContext).load(currentItem.getHinhAnh()).into(imgSanPham);
+            } else {
+                Glide.with(mContext).load(Utils.BASE_URL + Utils.BASE_IMAGE_URL + "product/" + currentItem.getHinhAnh()).into(imgSanPham);
+            }
         }
 
         return convertView;

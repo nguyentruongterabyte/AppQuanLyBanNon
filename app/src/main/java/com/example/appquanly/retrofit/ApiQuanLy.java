@@ -1,5 +1,6 @@
 package com.example.appquanly.retrofit;
 
+import com.example.appquanly.model.HoaDonModel;
 import com.example.appquanly.model.DonHangModel;
 import com.example.appquanly.model.ImageFileModel;
 import com.example.appquanly.model.MessageModel;
@@ -96,12 +97,14 @@ public interface ApiQuanLy {
             @Part("maSanPham") RequestBody maSanPham
     );
 
-    // Reports
+    // Báo cáo
     @GET("api/reports/revenue.php")
     Observable<DoanhThuModel> layBaoCaoDoanhThu(@Query("year") int nam);
     @GET("api/reports/products.php")
     Observable<SanPhamThongKeModel> layBaoCaoSanPham(@Query("year") int nam);
-    @GET("api/product/get.php")
-    Observable<DoanhThuModel> laySanPhamById(@Query("maSanPham") int maSanPham);
+
+    // Hóa đơn
+    @GET("api/bill/get.php")
+    Observable<HoaDonModel> getHoaDon(@Query("maDonHang") int maDonHang);
 }
 
