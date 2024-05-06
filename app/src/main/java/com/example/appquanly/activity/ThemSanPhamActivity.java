@@ -1,8 +1,5 @@
 package com.example.appquanly.activity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -14,15 +11,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.appquanly.Interface.ImageUploadCallback;
 import com.example.appquanly.R;
-import com.example.appquanly.model.ImageFileModel;
+import com.example.appquanly.model.ResponseObject;
 import com.example.appquanly.model.SanPham;
 import com.example.appquanly.networking.ProductApiCalls;
 import com.github.dhaval2404.imagepicker.ImagePicker;
@@ -48,17 +47,9 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
     SanPham sanPham = new SanPham();
     Boolean isCreating = true;
+    ProgressBar progressBar;
+    String mediaPath = null;
 
-    String mediaPath;
-    ActivityResultLauncher<Intent> launcher=
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
-                if(result.getResultCode()==RESULT_OK){
-                    Uri uri=result.getData().getData();
-                    // Use the uri to load the image
-                }else if(result.getResultCode()==ImagePicker.RESULT_ERROR){
-                    // Use ImagePicker.Companion.getError(result.getData()) to show an error
-                }
-            });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,42 +100,115 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         }
 
 
-        btnImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImagePicker.with(ThemSanPhamActivity.this)
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
-            }
-        });
+        btnImage.setOnClickListener(v -> ImagePicker.with(ThemSanPhamActivity.this)
+                .crop()	    			//Crop image(Optional), Check Customization for more option
+                .compress(1024)			//Final image size will be less than 1 MB(Optional)
+                .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+                .start());
 
 
 
-        btnThem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tenSanPham = Objects.requireNonNull(edtTenSanPham.getText()).toString();
-                String giaSanPham = Objects.requireNonNull(edtGiaSanPham.getText()).toString();
-                String mauSac = Objects.requireNonNull(edtMauSac.getText()).toString();
-                String hinhAnh = Objects.requireNonNull(edtHinhAnh.getText()).toString();
-                int soLuong = -1;
+        btnThem.setOnClickListener(v -> {
+            String tenSanPham = Objects.requireNonNull(edtTenSanPham.getText()).toString();
+            String giaSanPham = Objects.requireNonNull(edtGiaSanPham.getText()).toString();
+            String mauSac = Objects.requireNonNull(edtMauSac.getText()).toString();
+            String hinhAnh = Objects.requireNonNull(edtHinhAnh.getText()).toString();
 
 
-                if (TextUtils.isEmpty(tenSanPham)) {
-                    Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập tên", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(giaSanPham)) {
-                    Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập giá", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(mauSac)) {
-                    Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập màu sắc", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(hinhAnh)) {
-                    // Sau này up lên fire base
-                    Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập hình ảnh", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(edtSoLuong.getText().toString())) {
-                    Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập số lượng", Toast.LENGTH_SHORT).show();
-                }
-                else {
+
+            if (TextUtils.isEmpty(tenSanPham)) {
+                Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập tên", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(giaSanPham)) {
+                Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập giá", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(mauSac)) {
+                Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập màu sắc", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(hinhAnh)) {
+                // Sau này up lên fire base
+                Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập hình ảnh", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(edtSoLuong.getText().toString())) {
+                Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập số lượng", Toast.LENGTH_SHORT).show();
+            } else {
+                progressBar.setVisibility(View.VISIBLE);
+                if (mediaPath != null) {
+
+                    Uri uri = Uri.parse(mediaPath);
+
+                    File file = new File(getPath(uri));
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
+                    MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
+                    // Upload hình lên trước
+                    // Sau khi thành công thì mới tạo hoặc sửa những thông tin khác của sản phẩm
+                    ProductApiCalls.uploadImage(fileToUpload, sanPham.getMaSanPham(), new ImageUploadCallback() {
+                        @Override
+                        public void onSuccess(ResponseObject<String> imageFile) {
+                            edtHinhAnh.setText(imageFile.getResult());
+                            int soLuong;
+                            soLuong = Integer.parseInt(Objects.requireNonNull(edtSoLuong.getText()).toString());
+                            String gioiTinh = "";
+                            if (radNam.isChecked()) {
+                                gioiTinh = "Nam";
+                            } else if (radNu.isChecked()) {
+                                gioiTinh = "Nữ";
+                            } else if (radUnisex.isChecked()) {
+                                gioiTinh = "Unisex";
+                            }
+                            sanPham.setTenSanPham(tenSanPham);
+                            sanPham.setGiaSanPham(giaSanPham);
+                            sanPham.setHinhAnh(imageFile.getResult());
+                            sanPham.setMauSac(mauSac);
+                            // Test
+                            sanPham.setGioiTinh(gioiTinh);
+                            sanPham.setSoLuong(soLuong);
+
+                            if (isCreating) {
+                                ProductApiCalls.create(sanPham, sanPhamModel -> {
+                                    if (sanPhamModel.getStatus() == 200) {
+                                        Toast.makeText(ThemSanPhamActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                                        edtTenSanPham.setText("");
+                                        edtGiaSanPham.setText("");
+                                        edtHinhAnh.setText("");
+                                        edtMauSac.setText("");
+                                        edtSoLuong.setText("");
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Intent quanLySanPham = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
+                                        startActivity(quanLySanPham);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(ThemSanPhamActivity.this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }, compositeDisposable);
+                            } else {
+                                ProductApiCalls.update(sanPham, sanPhamModel -> {
+                                    if (sanPhamModel.getStatus() == 200) {
+                                        Toast.makeText(ThemSanPhamActivity.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+
+                                        edtTenSanPham.setText("");
+                                        edtGiaSanPham.setText("");
+                                        edtHinhAnh.setText("");
+                                        edtMauSac.setText("");
+                                        edtSoLuong.setText("");
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Intent quanLySanPham = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
+                                        startActivity(quanLySanPham);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(ThemSanPhamActivity.this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
+                                        System.out.println("Truong: " + sanPhamModel.getMessage());
+                                    }
+                                }, compositeDisposable);
+                            }
+                            progressBar.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Toast.makeText(ThemSanPhamActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // Nếu không chọn file ảnh thì chỉ cần update những thông tin khác
+                    int soLuong;
                     soLuong = Integer.parseInt(Objects.requireNonNull(edtSoLuong.getText()).toString());
                     String gioiTinh = "";
                     if (radNam.isChecked()) {
@@ -163,15 +227,15 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                     sanPham.setSoLuong(soLuong);
 
                     if (isCreating) {
-
                         ProductApiCalls.create(sanPham, sanPhamModel -> {
-                            if (sanPhamModel.isSuccess()) {
+                            if (sanPhamModel.getStatus() == 200) {
                                 Toast.makeText(ThemSanPhamActivity.this, "Thêm sản phẩm thành công", Toast.LENGTH_SHORT).show();
                                 edtTenSanPham.setText("");
                                 edtGiaSanPham.setText("");
                                 edtHinhAnh.setText("");
                                 edtMauSac.setText("");
                                 edtSoLuong.setText("");
+                                progressBar.setVisibility(View.INVISIBLE);
                                 Intent quanLySanPham = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
                                 startActivity(quanLySanPham);
                                 finish();
@@ -181,7 +245,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                         }, compositeDisposable);
                     } else {
                         ProductApiCalls.update(sanPham, sanPhamModel -> {
-                            if (sanPhamModel.isSuccess()) {
+                            if (sanPhamModel.getStatus() == 200) {
                                 Toast.makeText(ThemSanPhamActivity.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
 
                                 edtTenSanPham.setText("");
@@ -189,6 +253,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                                 edtHinhAnh.setText("");
                                 edtMauSac.setText("");
                                 edtSoLuong.setText("");
+                                progressBar.setVisibility(View.INVISIBLE);
                                 Intent quanLySanPham = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
                                 startActivity(quanLySanPham);
                                 finish();
@@ -198,6 +263,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                             }
                         }, compositeDisposable);
                     }
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -205,10 +271,18 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == RESULT_OK && data != null) {
+            mediaPath = data.getDataString();
+            if (mediaPath != null) {
+                Uri uri = Uri.parse(mediaPath);
+                String path = getPath(uri);
+                edtHinhAnh.setText(path);
+            } else {
+                Toast.makeText(getApplicationContext(), "Không hình ảnh nào được chọn cả", Toast.LENGTH_SHORT).show();
+            }
+        }
         super.onActivityResult(requestCode, resultCode, data);
-        assert data != null;
-        mediaPath = data.getDataString();
-        uploadMultipleFiles();
+
     }
 
     private String getPath(Uri uri) {
@@ -226,28 +300,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         return result;
     }
 
-    private void uploadMultipleFiles () {
-
-        Uri uri = Uri.parse(mediaPath);
-
-        File file = new File(getPath(uri));
-        RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
-        MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", file.getName(), requestBody);
-        ProductApiCalls.uploadImage(fileToUpload, sanPham.getMaSanPham(), new ImageUploadCallback() {
-            @Override
-            public void onSuccess(ImageFileModel imageFile) {
-                // Handle successful upload
-                edtHinhAnh.setText(imageFile.getName());
-            }
-
-
-            @Override
-            public void onFailure(Throwable t) {
-                // Handle upload failure
-                System.out.println("Truong: " + t.getMessage());
-            }
-        });
-    }
     private void ActionToolBar() {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -271,5 +323,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         radNu = findViewById(R.id.radNu);
         radUnisex = findViewById(R.id.radUnisex);
         btnImage = findViewById(R.id.btnImage);
+
+        progressBar = findViewById(R.id.processBarAdd);
     }
 }

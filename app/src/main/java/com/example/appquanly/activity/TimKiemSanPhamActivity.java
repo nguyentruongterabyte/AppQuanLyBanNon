@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -69,11 +70,16 @@ public class TimKiemSanPhamActivity extends AppCompatActivity {
     }
 
     private void getDataSearch(String searchKey) {
-        ProductApiCalls.search(searchKey, sanPhamList -> {
-            mangSanPham.clear();
-            mangSanPham = sanPhamList;
-            sanPhamAdapter = new SanPhamAdapter(getApplicationContext(), mangSanPham);
-            recyclerViewDSSanPhamTimKiem.setAdapter(sanPhamAdapter);
+        ProductApiCalls.search(searchKey, sanPhamModel -> {
+            if (sanPhamModel.getStatus() == 200) {
+
+                mangSanPham.clear();
+                mangSanPham = sanPhamModel.getResult();
+                sanPhamAdapter = new SanPhamAdapter(getApplicationContext(), mangSanPham);
+                recyclerViewDSSanPhamTimKiem.setAdapter(sanPhamAdapter);
+            } else {
+                Toast.makeText(this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }, compositeDisposable);
 
     }

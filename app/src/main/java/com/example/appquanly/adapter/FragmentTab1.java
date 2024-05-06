@@ -34,7 +34,7 @@ public class FragmentTab1 extends Fragment {
 
     private void getOrders() {
         OrderApiCalls.getAll(donHangModel -> {
-            if (donHangModel.isSuccess()) {
+            if (donHangModel.getStatus() == 200) {
                 DonHangAdapter adapter = new DonHangAdapter(getContext(), donHangModel.getResult());
                 recyclerViewDonHang.setAdapter(adapter);
             } else {

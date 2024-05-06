@@ -30,17 +30,22 @@ public class XemDonHangActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xem_don_hang);
+        initData();
         setControl();
         ActionToolBar();
         getOrders();
 
     }
 
-    private void getOrders() {
+    private void initData() {
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra("user");
+    }
+
+    private void getOrders() {
+        assert user != null;
         OrderApiCalls.getByUserId(user.getId(), donHangModel -> {
-            if (donHangModel.isSuccess()) {
+            if (donHangModel.getStatus() == 200) {
                 DonHangAdapter adapter = new DonHangAdapter(getApplicationContext(), donHangModel.getResult());
                 recyclerViewDonHang.setAdapter(adapter);
             } else {
@@ -57,9 +62,9 @@ public class XemDonHangActivity extends AppCompatActivity {
         recyclerViewDonHang.setLayoutManager(layoutManager);
     }
 
+
     private void ActionToolBar() {
-        Intent intent = getIntent();
-        user = (User) intent.getSerializableExtra("user");
+
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         // Khi nhấn vào nút trở về thì trở về trang chủ

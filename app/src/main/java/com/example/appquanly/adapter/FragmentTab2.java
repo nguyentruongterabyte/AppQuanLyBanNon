@@ -39,7 +39,7 @@ public class FragmentTab2 extends Fragment {
     private void getOrders() {
 
         OrderApiCalls.getAll(donHangModel -> {
-            if (donHangModel.isSuccess()) {
+            if (donHangModel.getStatus() == 200) {
                 List<DonHang> donHangChoXacNhan = new ArrayList<>();
                 for (int i  = 0; i < donHangModel.getResult().size(); i++) {
                     if (donHangModel.getResult().get(i).getTrangThai().equals("Chờ xác nhận")) {

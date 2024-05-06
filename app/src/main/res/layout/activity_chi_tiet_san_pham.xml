@@ -55,18 +55,40 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/hatCost"
                 android:textColor="@android:color/holo_red_light"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="@string/hatDescribe"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
                 android:weightSum="5">
 
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UselessParent">
+
+                    <TextView
+                        android:id="@+id/tvMoTaChiTiet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:textSize="16sp"
+                        android:text="@string/describeExample" />
+                </ScrollView>
             </LinearLayout>
 
         </LinearLayout>
@@ -81,27 +103,6 @@
         android:layout_height="0dp"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/hatDescribe"
-            android:textStyle="bold"
-            android:textSize="15sp" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvMoTaChiTiet"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/describeExample" />
-        </ScrollView>
         <LinearLayout
             android:weightSum="2"
             android:layout_width="match_parent"

@@ -1,13 +1,11 @@
 package com.example.appquanly.retrofit;
 
-import com.example.appquanly.model.HoaDonModel;
-import com.example.appquanly.model.DonHangModel;
-import com.example.appquanly.model.ImageFileModel;
-import com.example.appquanly.model.MessageModel;
-import com.example.appquanly.model.DoanhThuModel;
-import com.example.appquanly.model.SanPhamModel;
-import com.example.appquanly.model.SanPhamThongKeModel;
-import com.example.appquanly.model.ToaDoModel;
+import com.example.appquanly.model.DoanhThu;
+import com.example.appquanly.model.DonHang;
+import com.example.appquanly.model.ResponseObject;
+import com.example.appquanly.model.SanPham;
+import com.example.appquanly.model.SanPhamThongKe;
+import com.example.appquanly.model.ToaDo;
 import com.example.appquanly.model.User;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -28,22 +26,22 @@ import java.util.List;
 
 public interface ApiQuanLy {
     //    Khách hàng
-    @GET("api/user/get-all.php") // Đường dẫn của API
-    Call<List<User>> getUsers();
+    @GET("api/user/get-all.php")
+    Observable<ResponseObject<List<User>>> getUsers();
 
     // Đơn hàng
     @GET("api/order/history.php")
-    Observable<DonHangModel> xemDonHang(
+    Observable<ResponseObject<List<DonHang>>> xemDonHang(
             @Query("userId") int userId
     );
 
     @GET("api/order/history-all.php")
-    Observable<DonHangModel> xemTatCaDonHang(
+    Observable<ResponseObject<List<DonHang>>> xemTatCaDonHang(
     );
 
     @PUT("api/order/update-status.php")
     @FormUrlEncoded
-    Observable<DonHangModel> capNhatTrangThaiDonHang(
+    Observable<ResponseObject<Void>> capNhatTrangThaiDonHang(
             @Field("maDonHang") int maDonHang,
             @Field("trangThai") String trangThai
     );
@@ -51,7 +49,7 @@ public interface ApiQuanLy {
     //    Sản phẩm
     @POST("api/product/create.php")
     @FormUrlEncoded
-    Observable<SanPhamModel> taoMoiSanPham(
+    Observable<ResponseObject<Void>> taoMoiSanPham(
             @Field("tenSanPham") String tenSanPham,
             @Field("giaSanPham") long giaSanPham,
             @Field("soLuong") int soLuong,
@@ -61,14 +59,14 @@ public interface ApiQuanLy {
     );
 
     @GET("api/product/page.php")
-    Observable<SanPhamModel> getDanhSachSanPham(
+    Observable<ResponseObject<List<SanPham>>> getDanhSachSanPham(
             @Query("page") int page,
             @Query("amount") int amount
     );
 
     @PUT("api/product/update.php")
     @FormUrlEncoded
-    Observable<SanPhamModel> capNhapSanPham(
+    Observable<ResponseObject<Void>> capNhapSanPham(
             @Field("maSanPham") int maSanPham,
             @Field("tenSanPham") String tenSanPham,
             @Field("giaSanPham") long giaSanPham,
@@ -80,40 +78,40 @@ public interface ApiQuanLy {
 
     @HTTP(method = "DELETE", path = "api/product/delete.php", hasBody = true)
     @FormUrlEncoded
-    Observable<MessageModel> xoaSanPham(
+    Observable<ResponseObject<Void>> xoaSanPham(
             @Field("maSanPham") int maSanPham
     );
 
 
     @GET("api/product/search.php")
-    Observable<SanPhamModel> getDanhSachSanPhamTimKiem(
+    Observable<ResponseObject<List<SanPham>>> getDanhSachSanPhamTimKiem(
             @Query("key") String key
     );
 
 
     @Multipart
     @POST("api/product/upload-image.php")
-    Call<ImageFileModel> uploadFile(
+    Call<ResponseObject<String>> uploadFile(
             @Part MultipartBody.Part file,
             @Part("maSanPham") RequestBody maSanPham
     );
 
     // Báo cáo
     @GET("api/reports/revenue.php")
-    Observable<DoanhThuModel> layBaoCaoDoanhThu(@Query("year") int nam);
+    Observable<ResponseObject<List<DoanhThu>>> layBaoCaoDoanhThu(@Query("year") int nam);
     @GET("api/reports/products.php")
-    Observable<SanPhamThongKeModel> layBaoCaoSanPham(@Query("year") int nam);
+    Observable<ResponseObject<List<SanPhamThongKe>>> layBaoCaoSanPham(@Query("year") int nam);
 
     // Hóa đơn
     @GET("api/bill/get.php")
-    Observable<HoaDonModel> getHoaDon(@Query("maDonHang") int maDonHang);
+    Observable<ResponseObject<DonHang>> getHoaDon(@Query("maDonHang") int maDonHang);
 
     // Tọa độ
     @GET("api/location/get.php")
-    Observable<ToaDoModel> getToaDo();
+    Observable<ResponseObject<ToaDo>> getToaDo();
 
     @POST("api/location/create.php")
     @FormUrlEncoded
-    Observable<ToaDoModel> taoTaoDo(@Field("tenViTri") String tenViTri, @Field("kinhDo") Double kinhDo, @Field("viDo") Double viDo);
+    Observable<ResponseObject<Void>> taoTaoDo(@Field("tenViTri") String tenViTri, @Field("kinhDo") Double kinhDo, @Field("viDo") Double viDo);
 }
 

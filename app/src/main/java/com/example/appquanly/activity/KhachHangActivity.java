@@ -1,60 +1,69 @@
 package com.example.appquanly.activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.appquanly.R;
 import com.example.appquanly.adapter.UserAdapter;
 import com.example.appquanly.model.User;
-import com.example.appquanly.retrofit.ApiQuanLy;
-import com.example.appquanly.retrofit.RetrofitClient;
-import com.example.appquanly.utils.Utils;
+import com.example.appquanly.networking.UserApiCalls;
 
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import java.util.Objects;
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+
 public class KhachHangActivity extends AppCompatActivity {
     private ListView listView;
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private Toolbar toolbar;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_khach_hang);
+        setControl();
+        ActionToolBar();
+        initData();
 
-        listView = findViewById(R.id.listView);
+    }
 
-        // Tạo Retrofit instance
-        ApiQuanLy apiQL = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
+    private void ActionToolBar() {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        // Khi nhấn vào nút trở về thì trở về trang chủ
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
 
+    private void initData() {
         // Gọi API để lấy danh sách người dùng
-        Call<List<User>> call = apiQL.getUsers();
-        call.enqueue(new Callback<List<User>>() {
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                if (response.isSuccessful()) {
-                    List<User> userList = response.body();
-                    if (userList != null) {
-                        // Gán danh sách người dùng vào Adapter
-                        UserAdapter adapter = new UserAdapter(KhachHangActivity.this, userList);
-                        // Gán Adapter cho ListView
-                        listView.setAdapter(adapter);
-                    }
-                } else {
-                    // Xử lý lỗi
-                    Log.e("Error", "Response error: " + response.message());
+        UserApiCalls.getAll(userModel -> {
+            if (userModel.getStatus() == 200) {
+                List<User> userList = userModel.getResult();
+                if (userList != null) {
+                    // Gán danh sách người dùng vào Adapter
+                    UserAdapter adapter = new UserAdapter(KhachHangActivity.this, userList);
+                    // Gán Adapter cho ListView
+                    listView.setAdapter(adapter);
                 }
+            } else {
+                Toast.makeText(this, userModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        }, compositeDisposable);
+    }
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                // Xử lý lỗi
-                Log.e("Error", "Network error: " + t.getMessage());
-            }
-        });
+    private void setControl() {
+        listView = findViewById(R.id.listView);
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
     }
 }

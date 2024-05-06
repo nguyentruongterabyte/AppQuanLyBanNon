@@ -1,17 +1,17 @@
 package com.example.appquanly.model;
 
-public class ToaDoModel {
+public class ResponseObject<T> {
     private int status;
     private String message;
-    private ToaDo toaDo;
-
-    public ToaDoModel(int status, String message) {
-        this.status = status;
-        this.message = message;
-    }
+    private T result;
 
     public int getStatus() {
         return status;
+    }
+
+    public ResponseObject(int status, String message) {
+        this.status = status;
+        this.message = message;
     }
 
     public void setStatus(int status) {
@@ -26,11 +26,12 @@ public class ToaDoModel {
         this.message = message;
     }
 
-    public ToaDo getToaDo() {
-        return toaDo;
+    public T getResult() {
+        return result;
     }
 
-    public void setToaDo(ToaDo toaDo) {
-        this.toaDo = toaDo;
+    public void setResult(T result) {
+        this.result = result;
     }
 }
+

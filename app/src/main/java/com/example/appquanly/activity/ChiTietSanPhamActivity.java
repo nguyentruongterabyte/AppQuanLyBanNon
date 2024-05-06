@@ -61,7 +61,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     // Xử lý xóa sản phẩm
                     ProductApiCalls.delete(sanPham.getMaSanPham(), messageModel -> {
-                        if (messageModel.isSuccess()) {
+                        if (messageModel.getStatus() == 200) {
                             Toast.makeText(ChiTietSanPhamActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
                             startActivity(intent);

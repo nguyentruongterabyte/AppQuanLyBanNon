@@ -66,6 +66,8 @@ public class InHoaDonActivity extends AppCompatActivity {
                     donHang = hoaDonModel.getResult();
                     sanPhamList = donHang.getItems();
                     taoThongTinHoaDon();
+                } else {
+                    Toast.makeText(this, hoaDonModel.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }, compositeDisposable);
         }

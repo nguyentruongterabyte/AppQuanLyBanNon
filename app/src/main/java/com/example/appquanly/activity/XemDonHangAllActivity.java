@@ -1,10 +1,9 @@
 package com.example.appquanly.activity;
 
 import android.os.Bundle;
-import android.widget.ImageButton;
-import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.appquanly.R;
@@ -13,20 +12,24 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
+
 public class XemDonHangAllActivity extends AppCompatActivity {
 
-    ImageButton btnBACK, btnFIND;
-    ListView lvDanhSach;
-
-
+    Toolbar toolbar;
+    ViewPager viewPager;
+    TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xem_don_hang_all);
+        setControl();
+        ActionToolBar();
+    }
 
-
-        ViewPager viewPager = findViewById(R.id.viewPager);
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
+    private void setControl() {
+        viewPager = findViewById(R.id.viewPager);
+        tabLayout = findViewById(R.id.tabLayout);
+        toolbar = findViewById(R.id.toolbar);
 
         // Tạo Adapter cho ViewPager
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -36,5 +39,11 @@ public class XemDonHangAllActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    private void ActionToolBar() {
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        // Khi nhấn vào nút trở về thì trở về trang chủ
+        toolbar.setNavigationOnClickListener(v -> finish());
+    }
 
 }
