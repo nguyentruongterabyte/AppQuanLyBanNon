@@ -91,7 +91,7 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
 
                 tvKH.setText(String.valueOf("Mã khách hàng: " + donHang.getUserId()));
                 tvDC.setText("Địa chỉ: " + donHang.getDiaChi());
-                if (donHang.getToken().equals("")){
+                if (donHang.getHasToken() == 0){
                     tvPhuongThuc.setText("Thanh toán khi nhận hàng");
                 } else {
                     tvPhuongThuc.setText("Thanh toán bằng ZaloPay");

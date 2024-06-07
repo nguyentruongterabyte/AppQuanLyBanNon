@@ -21,9 +21,10 @@ import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
+// Fragment đơn hàng đã hủy
 public class FragmentTab5 extends Fragment {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RecyclerView recyclerViewDonHang;
 
     @Nullable

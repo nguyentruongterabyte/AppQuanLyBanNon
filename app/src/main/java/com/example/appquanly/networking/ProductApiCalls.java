@@ -74,7 +74,7 @@ public class ProductApiCalls {
         );
     }
 
-//    Upload ảnh
+    //    Upload ảnh
     public static void uploadImage(MultipartBody.Part fileToUpload, int maSanPham, ImageUploadCallback callback) {
 
         RequestBody maSanPhamBody = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(maSanPham));

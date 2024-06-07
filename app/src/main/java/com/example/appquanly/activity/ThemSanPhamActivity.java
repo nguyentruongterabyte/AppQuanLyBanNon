@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -29,6 +28,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.concurrent.CountDownLatch;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import okhttp3.MediaType;
@@ -99,7 +99,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             sanPham.setMaSanPham(-1);
         }
 
-
+        // xử lý sự kiện nút thêm ảnh được click
         btnImage.setOnClickListener(v -> ImagePicker.with(ThemSanPhamActivity.this)
                 .crop()	    			//Crop image(Optional), Check Customization for more option
                 .compress(1024)			//Final image size will be less than 1 MB(Optional)
@@ -109,12 +109,11 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
 
         btnThem.setOnClickListener(v -> {
+
             String tenSanPham = Objects.requireNonNull(edtTenSanPham.getText()).toString();
             String giaSanPham = Objects.requireNonNull(edtGiaSanPham.getText()).toString();
             String mauSac = Objects.requireNonNull(edtMauSac.getText()).toString();
             String hinhAnh = Objects.requireNonNull(edtHinhAnh.getText()).toString();
-
-
 
             if (TextUtils.isEmpty(tenSanPham)) {
                 Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập tên", Toast.LENGTH_SHORT).show();
@@ -125,7 +124,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(hinhAnh)) {
                 // Sau này up lên fire base
                 Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập hình ảnh", Toast.LENGTH_SHORT).show();
-            } else if (TextUtils.isEmpty(edtSoLuong.getText().toString())) {
+            } else if (TextUtils.isEmpty(Objects.requireNonNull(edtSoLuong.getText()).toString())) {
                 Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập số lượng", Toast.LENGTH_SHORT).show();
             } else {
                 progressBar.setVisibility(View.VISIBLE);

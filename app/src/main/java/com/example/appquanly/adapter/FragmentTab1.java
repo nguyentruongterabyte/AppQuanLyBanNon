@@ -17,9 +17,10 @@ import com.example.appquanly.networking.OrderApiCalls;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
+// Fragment tất cả đơn hàng
 public class FragmentTab1 extends Fragment {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RecyclerView recyclerViewDonHang;
 
     @Nullable
