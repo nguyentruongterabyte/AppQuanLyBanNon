@@ -44,8 +44,6 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
         setControl();
         initData();
         setEvent();
-
-
     }
 
     private void setEvent() {

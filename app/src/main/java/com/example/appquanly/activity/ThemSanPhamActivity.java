@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -22,6 +23,10 @@ import android.widget.Toast;
 
 import com.example.appquanly.Interface.ImageUploadCallback;
 import com.example.appquanly.R;
+import com.example.appquanly.designPattern.state.GioiTinhState;
+import com.example.appquanly.designPattern.state.NamState;
+import com.example.appquanly.designPattern.state.NuState;
+import com.example.appquanly.designPattern.state.UnisexState;
 import com.example.appquanly.model.ImageFileModel;
 import com.example.appquanly.model.SanPham;
 import com.example.appquanly.networking.ProductApiCalls;
@@ -66,7 +71,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         setControl();
         ActionToolBar();
         setEvent();
-
     }
 
     @Override
@@ -108,7 +112,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             sanPham.setMaSanPham(-1);
         }
 
-
         btnImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,8 +123,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             }
         });
 
-
-
         btnThem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +131,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 String mauSac = Objects.requireNonNull(edtMauSac.getText()).toString();
                 String hinhAnh = Objects.requireNonNull(edtHinhAnh.getText()).toString();
                 int soLuong = -1;
-
 
                 if (TextUtils.isEmpty(tenSanPham)) {
                     Toast.makeText(ThemSanPhamActivity.this, "Bạn chưa nhập tên", Toast.LENGTH_SHORT).show();
@@ -147,19 +147,20 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 else {
                     soLuong = Integer.parseInt(Objects.requireNonNull(edtSoLuong.getText()).toString());
                     String gioiTinh = "";
+                    GioiTinhState gioiTinhState;
                     if (radNam.isChecked()) {
-                        gioiTinh = "Nam";
+                        gioiTinhState = new NamState();
                     } else if (radNu.isChecked()) {
-                        gioiTinh = "Nữ";
-                    } else if (radUnisex.isChecked()) {
-                        gioiTinh = "Unisex";
+                        gioiTinhState = new NuState();
+                    } else {
+                        gioiTinhState = new UnisexState();
                     }
                     sanPham.setTenSanPham(tenSanPham);
                     sanPham.setGiaSanPham(giaSanPham);
                     sanPham.setHinhAnh(hinhAnh);
                     sanPham.setMauSac(mauSac);
                     // Test
-                    sanPham.setGioiTinh(gioiTinh);
+                    gioiTinhState.doAction(sanPham);
                     sanPham.setSoLuong(soLuong);
 
                     if (isCreating) {
@@ -194,7 +195,6 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                                 finish();
                             } else {
                                 Toast.makeText(ThemSanPhamActivity.this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
-                                System.out.println("Truong: " + sanPhamModel.getMessage());
                             }
                         }, compositeDisposable);
                     }
@@ -240,11 +240,10 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 edtHinhAnh.setText(imageFile.getName());
             }
 
-
             @Override
             public void onFailure(Throwable t) {
                 // Handle upload failure
-                System.out.println("Truong: " + t.getMessage());
+                Log.d("ERROR",t.getMessage());
             }
         });
     }

@@ -43,7 +43,6 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
         initData();
         ActionToolBar();
         setEvent();
-
     }
 
     private void setEvent() {
@@ -74,7 +73,6 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show());
-
     }
 
 
@@ -109,9 +107,6 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
 
         btnSua = findViewById(R.id.btnSua);
         btnXoa  = findViewById(R.id.btnXoa);
-
-
-
     }
 
     private void ActionToolBar() {

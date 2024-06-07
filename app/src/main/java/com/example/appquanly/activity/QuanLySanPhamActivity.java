@@ -57,7 +57,6 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
         getDanhSachSanPham(page);
         addEventLoad();
         setEventClick();
-
     }
 
 
@@ -182,8 +181,6 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-
-
         super.onResume();
     }
 }

@@ -28,20 +28,20 @@ import java.util.List;
 
 public interface ApiQuanLy {
     //    Khách hàng
-    @GET("api/user/get-all.php") // Đường dẫn của API
+    @GET("api/user/get-all") // Đường dẫn của API
     Call<List<User>> getUsers();
 
     // Đơn hàng
-    @GET("api/order/history.php")
+    @GET("api/order/history")
     Observable<DonHangModel> xemDonHang(
             @Query("userId") int userId
     );
 
-    @GET("api/order/history-all.php")
+    @GET("api/order/history-all")
     Observable<DonHangModel> xemTatCaDonHang(
     );
 
-    @PUT("api/order/update-status.php")
+    @PUT("api/order/update-status")
     @FormUrlEncoded
     Observable<DonHangModel> capNhatTrangThaiDonHang(
             @Field("maDonHang") int maDonHang,
@@ -49,7 +49,7 @@ public interface ApiQuanLy {
     );
 
     //    Sản phẩm
-    @POST("api/product/create.php")
+    @POST("api/product/create")
     @FormUrlEncoded
     Observable<SanPhamModel> taoMoiSanPham(
             @Field("tenSanPham") String tenSanPham,
@@ -60,13 +60,13 @@ public interface ApiQuanLy {
             @Field("gioiTinh") String gioiTinh
     );
 
-    @GET("api/product/page.php")
+    @GET("api/product/page")
     Observable<SanPhamModel> getDanhSachSanPham(
             @Query("page") int page,
             @Query("amount") int amount
     );
 
-    @PUT("api/product/update.php")
+    @PUT("api/product/update")
     @FormUrlEncoded
     Observable<SanPhamModel> capNhapSanPham(
             @Field("maSanPham") int maSanPham,
@@ -78,41 +78,41 @@ public interface ApiQuanLy {
             @Field("gioiTinh") String gioiTinh
     );
 
-    @HTTP(method = "DELETE", path = "api/product/delete.php", hasBody = true)
+    @HTTP(method = "DELETE", path = "api/product/delete", hasBody = true)
     @FormUrlEncoded
     Observable<MessageModel> xoaSanPham(
             @Field("maSanPham") int maSanPham
     );
 
 
-    @GET("api/product/search.php")
+    @GET("api/product/search")
     Observable<SanPhamModel> getDanhSachSanPhamTimKiem(
             @Query("key") String key
     );
 
 
     @Multipart
-    @POST("api/product/upload-image.php")
+    @POST("api/product/upload-image")
     Call<ImageFileModel> uploadFile(
             @Part MultipartBody.Part file,
             @Part("maSanPham") RequestBody maSanPham
     );
 
     // Báo cáo
-    @GET("api/reports/revenue.php")
+    @GET("api/reports/revenue")
     Observable<DoanhThuModel> layBaoCaoDoanhThu(@Query("year") int nam);
-    @GET("api/reports/products.php")
+    @GET("api/reports/products")
     Observable<SanPhamThongKeModel> layBaoCaoSanPham(@Query("year") int nam);
 
     // Hóa đơn
-    @GET("api/bill/get.php")
+    @GET("api/bill/get")
     Observable<HoaDonModel> getHoaDon(@Query("maDonHang") int maDonHang);
 
     // Tọa độ
-    @GET("api/location/get.php")
+    @GET("api/location/get")
     Observable<ToaDoModel> getToaDo();
 
-    @POST("api/location/create.php")
+    @POST("api/location/create")
     @FormUrlEncoded
     Observable<ToaDoModel> taoTaoDo(@Field("tenViTri") String tenViTri, @Field("kinhDo") Double kinhDo, @Field("viDo") Double viDo);
 }
