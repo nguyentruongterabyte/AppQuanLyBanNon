@@ -21,9 +21,10 @@ import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
+// Fragment đơn hàng chờ xác nhận
 public class FragmentTab2 extends Fragment {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
     private RecyclerView recyclerViewDonHang;
 
     @Nullable
@@ -39,7 +40,7 @@ public class FragmentTab2 extends Fragment {
     private void getOrders() {
 
         OrderApiCalls.getAll(donHangModel -> {
-            if (donHangModel.isSuccess()) {
+            if (donHangModel.getStatus() == 200) {
                 List<DonHang> donHangChoXacNhan = new ArrayList<>();
                 for (int i  = 0; i < donHangModel.getResult().size(); i++) {
                     if (donHangModel.getResult().get(i).getTrangThai().equals("Chờ xác nhận")) {

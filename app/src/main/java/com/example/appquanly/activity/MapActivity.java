@@ -51,9 +51,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initData() {
         LocationApiCalls.getLocation(toaDoModel -> {
             if (toaDoModel.getStatus() == 200) {
-                toaDo = toaDoModel.getToaDo();
+                toaDo = toaDoModel.getResult();
             } else {
-                Toast.makeText(this, "Không thể lấy được vị trí của cửa hàng", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, compositeDisposable);
     }
@@ -78,7 +78,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         LocationApiCalls.getLocation(toaDoModel -> {
             if (toaDoModel.getStatus() == 200) {
-                toaDo = toaDoModel.getToaDo();
+                toaDo = toaDoModel.getResult();
                 Log.d("mylog", toaDo.toString());
                 gMap = googleMap;
 
@@ -101,7 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 updateSelectedLocationOnMap();
             } else {
-                Toast.makeText(this, "Không thể lấy được vị trí của cửa hàng", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, compositeDisposable);
     }

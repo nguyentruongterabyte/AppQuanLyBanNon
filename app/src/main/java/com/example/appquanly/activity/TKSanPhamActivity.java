@@ -20,9 +20,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.appquanly.R;
-import com.example.appquanly.adapter.ThongKeAdapter;
 import com.example.appquanly.adapter.ThongKeSanPhamAdapter;
-import com.example.appquanly.model.SanPham;
 import com.example.appquanly.model.SanPhamThongKe;
 import com.example.appquanly.networking.ReportApiCalls;
 import com.github.mikephil.charting.charts.PieChart;
@@ -37,14 +35,13 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class TKSanPhamActivity extends AppCompatActivity {
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     public String getYear;
-    private int delay = 1000;
     Toolbar toolbar;
     AutoCompleteTextView tvMenuYear;
     CheckBox chkKieuXem;
@@ -135,6 +132,7 @@ public class TKSanPhamActivity extends AppCompatActivity {
         pieData.setValueFormatter(new PercentFormatter());
         pieChart.setDrawEntryLabels(false);
         pieChart.setData(pieData);
+        int delay = 1000;
         pieChart.animateXY(delay, delay);
         pieChart.setUsePercentValues(true);
         pieChart.invalidate();
@@ -157,7 +155,7 @@ public class TKSanPhamActivity extends AppCompatActivity {
         sanPhamThongKeList.clear();
         ReportApiCalls.getMostProducts(Integer.parseInt(getYear), sanPhamThongKeModel -> {
             if (sanPhamThongKeModel.getStatus() == 200) {
-                sanPhamThongKeList = sanPhamThongKeModel.getObject();
+                sanPhamThongKeList = sanPhamThongKeModel.getResult();
                 ThongKeSanPhamAdapter adapter = new ThongKeSanPhamAdapter(TKSanPhamActivity.this, R.layout.layout_item_san_pham_thong_ke, sanPhamThongKeList);
                 listSanPham.setAdapter(adapter);
             } else {
@@ -203,7 +201,7 @@ public class TKSanPhamActivity extends AppCompatActivity {
     }
     private void actionBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

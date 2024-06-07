@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MHat shop</string>
     <string name="hat_name">Nón lưỡi trai</string>
-    <string name="hatCost">Giá: 250000</string>
+    <string name="hatCost">đ250000</string>
     <string name="hatName">Tên sản phẩm</string>
     <string name="addCart">Thêm vào giỏ hàng</string>
     <string name="hatDescribe">Mô tả chi tiết sản phẩm</string>
@@ -58,4 +58,6 @@
     <string name="reportImageDes">Thống kê image</string>
     <string name="select">year\n</string>
     <string name="createFilePDF">Xuất file pdf</string>
+    <string name="addProductBtn">Thêm sản phẩm mới</string>
+    <string name="soldQuantity">Đã bán 27.8k</string>
 </resources>

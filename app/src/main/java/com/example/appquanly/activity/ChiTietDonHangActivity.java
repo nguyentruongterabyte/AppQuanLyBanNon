@@ -55,22 +55,19 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        btnSua.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnSua.setOnClickListener(v -> {
 
-                donHang.setTrangThai(trangThaiList[spinnerTrangThai.getSelectedItemPosition()]);
-                OrderApiCalls.updateOrderStatus(donHang.getMaDonHang(), donHang.getTrangThai(), donHangModel -> {
-                    if (donHangModel.isSuccess()) {
-                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thành công", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Cập nhật trạng thái không thành công", Toast.LENGTH_SHORT).show();
+            donHang.setTrangThai(trangThaiList[spinnerTrangThai.getSelectedItemPosition()]);
+            OrderApiCalls.updateOrderStatus(donHang.getMaDonHang(), donHang.getTrangThai(), donHangModel -> {
+                if (donHangModel.getStatus() == 200) {
+                    Toast.makeText(getApplicationContext(), "Cập nhật trạng thái thành công", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), donHangModel.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    }
-                }, compositeDisposable);
+                }
+            }, compositeDisposable);
 
-            }
         });
     }
 
@@ -92,7 +89,7 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
 
                 tvKH.setText(String.valueOf("Mã khách hàng: " + donHang.getUserId()));
                 tvDC.setText("Địa chỉ: " + donHang.getDiaChi());
-                if (donHang.getToken().equals("")){
+                if (donHang.getHasToken() == 0){
                     tvPhuongThuc.setText("Thanh toán khi nhận hàng");
                 } else {
                     tvPhuongThuc.setText("Thanh toán bằng ZaloPay");

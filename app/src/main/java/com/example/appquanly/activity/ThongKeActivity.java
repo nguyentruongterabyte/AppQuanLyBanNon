@@ -11,18 +11,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.appquanly.R;
 import com.example.appquanly.adapter.ThongKeAdapter;
 import com.example.appquanly.model.DoanhThu;
-import com.example.appquanly.model.DoanhThuModel;
 import com.example.appquanly.networking.ReportApiCalls;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -34,17 +31,13 @@ import com.github.mikephil.charting.data.BarEntry;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ThongKeActivity extends AppCompatActivity {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private final int delay = 1000;
     public String getYear;
     Toolbar toolbar;
     AutoCompleteTextView tvMenuYear;
@@ -53,7 +46,6 @@ public class ThongKeActivity extends AppCompatActivity {
     BarChart barChart;
     List<String> yearsList = new ArrayList<>();
     List<DoanhThu> doanhThuList = new ArrayList<>();
-    private ArrayAdapter<String> yearAdapter;
     int[] colors = new int[] {
             Color.rgb(255, 102, 0),   // Màu cam
             Color.rgb(255, 204, 0),   // Màu vàng
@@ -135,6 +127,7 @@ public class ThongKeActivity extends AppCompatActivity {
         BarData barData = new BarData(dataSet);
         barChart.setData(barData);
         barChart.getDescription().setEnabled(false);
+        int delay = 1000;
         barChart.animateXY(delay, delay);
         barChart.invalidate();
         barChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -145,7 +138,7 @@ public class ThongKeActivity extends AppCompatActivity {
         doanhThuList.clear();
         ReportApiCalls.getRevenue(Integer.parseInt(year), doanhThuModel -> {
             if (doanhThuModel.getStatus() == 200) {
-                doanhThuList = doanhThuModel.getObject();
+                doanhThuList = doanhThuModel.getResult();
                 ThongKeAdapter adapter = new ThongKeAdapter(ThongKeActivity.this, R.layout.layout_item_thong_ke, doanhThuList);
                 listThongKe.setAdapter(adapter);
             } else {
@@ -154,26 +147,20 @@ public class ThongKeActivity extends AppCompatActivity {
         }, compositeDisposable);
     }
     private void showDatePickerDialog() {
-        yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, yearsList);
+        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, yearsList);
         tvMenuYear.setAdapter(yearAdapter);
-        tvMenuYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getYear = parent.getItemAtPosition(position).toString();
-                ckbKieuXem.setChecked(false);
-                getDoanhThuTheoThang(getYear);
-            }
+        tvMenuYear.setOnItemClickListener((parent, view, position, id) -> {
+            getYear = parent.getItemAtPosition(position).toString();
+            ckbKieuXem.setChecked(false);
+            getDoanhThuTheoThang(getYear);
         });
-        ckbKieuXem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    showBarChart();
-                }
-                else {
-                    barChart.setVisibility(View.GONE);
-                    listThongKe.setVisibility(View.VISIBLE);
-                }
+        ckbKieuXem.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                showBarChart();
+            }
+            else {
+                barChart.setVisibility(View.GONE);
+                listThongKe.setVisibility(View.VISIBLE);
             }
         });
 
@@ -188,12 +175,7 @@ public class ThongKeActivity extends AppCompatActivity {
     }
     private void actionBar() {
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 }

@@ -2,6 +2,7 @@ package com.example.appquanly.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,9 +12,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.appquanly.R;
 import com.example.appquanly.adapter.SanPhamAdapter;
@@ -43,7 +43,7 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
     Handler handler = new Handler();
     boolean isLoading = false;
-    Button btnThem;
+    AppCompatButton btnThem;
     int page = 1;
 
 
@@ -62,12 +62,9 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
 
     private void setEventClick() {
 
-        btnThem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ThemSanPhamActivity.class);
-                startActivity(intent);
-            }
+        btnThem.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), ThemSanPhamActivity.class);
+            startActivity(intent);
         });
 
         imgSearch.setOnClickListener(v -> {
@@ -137,16 +134,21 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
 
     private void getDanhSachSanPham(int page) {
 
-        ProductApiCalls.getInAPage(page, sanPhamList -> {
-            if (sanPhamAdapter == null) {
-                mangSanPham = sanPhamList;
-                sanPhamAdapter = new SanPhamAdapter(getApplicationContext(), mangSanPham);
-                recyclerViewDSSanPham.setAdapter(sanPhamAdapter);
-            } else {
-                int soLuongAdd = sanPhamList.size();
-                for (int i = 0; i < soLuongAdd; i++) {
-                    mangSanPham.add(sanPhamList.get(i));
+        ProductApiCalls.getInAPage(page, sanPhamModel -> {
+
+            if (sanPhamModel.getStatus() == 200) {
+                if (sanPhamAdapter == null) {
+                    mangSanPham = sanPhamModel.getResult();
+                    sanPhamAdapter = new SanPhamAdapter(getApplicationContext(), mangSanPham);
+                    recyclerViewDSSanPham.setAdapter(sanPhamAdapter);
+                } else {
+                    int soLuongAdd = sanPhamModel.getResult().size();
+                    for (int i = 0; i < soLuongAdd; i++) {
+                        mangSanPham.add(sanPhamModel.getResult().get(i));
+                    }
                 }
+            } else {
+                Toast.makeText(this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         }, compositeDisposable);
@@ -157,7 +159,6 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
         recyclerViewDSSanPham = findViewById(R.id.recyclerViewDSSanPham);
         toolbar = findViewById(R.id.toolbar);
 
-//        layoutManager = new GridLayoutManager(this, 2);
         layoutManager = new GridLayoutManager(this, 2);
         recyclerViewDSSanPham.setLayoutManager(layoutManager);
         recyclerViewDSSanPham.setHasFixedSize(true);
@@ -165,9 +166,8 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
 
         imgSearch = findViewById(R.id.imgSearch);
 
-        mangSanPham = new ArrayList<>();
-
         btnThem = findViewById(R.id.btnThem);
+        mangSanPham = new ArrayList<>();
 
     }
 
@@ -183,4 +183,5 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
+
 }

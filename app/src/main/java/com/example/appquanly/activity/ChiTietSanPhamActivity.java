@@ -2,12 +2,10 @@ package com.example.appquanly.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +58,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     // Xử lý xóa sản phẩm
                     ProductApiCalls.delete(sanPham.getMaSanPham(), messageModel -> {
-                        if (messageModel.isSuccess()) {
+                        if (messageModel.getStatus() == 200) {
                             Toast.makeText(ChiTietSanPhamActivity.this, "Xóa thành công", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), QuanLySanPhamActivity.class);
                             startActivity(intent);

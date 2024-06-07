@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.example.appquanly.R;
 import com.example.appquanly.activity.XemDonHangActivity;
 import com.example.appquanly.model.User;
@@ -26,32 +28,31 @@ public class UserAdapter extends ArrayAdapter<User> {
         this.users = users;
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         User user = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_user, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_item_khach_hang, parent, false);
         }
         TextView textViewEmail = convertView.findViewById(R.id.textViewEmail);
         TextView textViewUsername = convertView.findViewById(R.id.textViewUsername);
         TextView textViewMobile = convertView.findViewById(R.id.textViewMobile);
 
+        assert user != null;
         textViewEmail.setText(String.format("Email: %s", user.getEmail()));
         textViewUsername.setText(String.format("Username: %s", user.getUsername()));
         textViewMobile.setText(String.format("Mobile: %s", user.getMobile()));
 
         // Set OnClickListener to open ChiTietDonHangActivity
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Open ChiTietDonHangActivity
+        convertView.setOnClickListener(v -> {
+            // Open ChiTietDonHangActivity
 
-                Intent intent = new Intent(context, XemDonHangActivity.class);
-                intent.putExtra("user", user);
-                // Pass any necessary data to the ChiTietDonHangActivity using intent.putExtra if needed
+            Intent intent = new Intent(context, XemDonHangActivity.class);
+            intent.putExtra("user", user);
+            // Pass any necessary data to the ChiTietDonHangActivity using intent.putExtra if needed
 
-                context.startActivity(intent);
-            }
+            context.startActivity(intent);
         });
 
         return convertView;

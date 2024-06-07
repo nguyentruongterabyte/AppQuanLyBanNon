@@ -66,6 +66,8 @@ public class InHoaDonActivity extends AppCompatActivity {
                     donHang = hoaDonModel.getResult();
                     sanPhamList = donHang.getItems();
                     taoThongTinHoaDon();
+                } else {
+                    Toast.makeText(this, hoaDonModel.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }, compositeDisposable);
         }
@@ -91,8 +93,8 @@ public class InHoaDonActivity extends AppCompatActivity {
         }
         info.append("--------------------------------------------------------------\n");
         info.append("Tổng tiền: ").append(dft.format(Long.parseLong(donHang.getTongTien()))).append("\n");
-        info.append("Zalo pay: ").append(donHang.getToken().equals("") ? 0 : dft.format(Long.parseLong(donHang.getTongTien()))).append("\n");
-        info.append("Thanh toán: ").append(donHang.getToken().equals("") ? dft.format(Long.parseLong(donHang.getTongTien())) : 0);
+        info.append("Zalo pay: ").append(donHang.getHasToken() == 0? 0 : dft.format(Long.parseLong(donHang.getTongTien()))).append("\n");
+        info.append("Thanh toán: ").append(donHang.getHasToken() == 0? dft.format(Long.parseLong(donHang.getTongTien())) : 0);
         tvHoaDon.setText(info.toString());
         Log.d("mylog", info.toString());
     }
