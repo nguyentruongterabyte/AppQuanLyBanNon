@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.example.appquanly.R;
 import com.example.appquanly.adapter.SanPhamAdapter;
+import com.example.appquanly.designPattern.factoryMethod.LogUtils;
+import com.example.appquanly.designPattern.factoryMethod.Loggerfactory;
 import com.example.appquanly.model.SanPham;
 import com.example.appquanly.networking.ProductApiCalls;
 import com.example.appquanly.retrofit.ApiQuanLy;
@@ -30,8 +32,6 @@ import java.util.Objects;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class QuanLySanPhamActivity extends AppCompatActivity {
-
-
 
     RecyclerView recyclerViewDSSanPham;
     ApiQuanLy apiQuanLy;
@@ -55,6 +55,7 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
         setControl();
         ActionToolBar();
         getDanhSachSanPham(page);
+
         addEventLoad();
         setEventClick();
     }
@@ -147,6 +148,9 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
                         mangSanPham.add(sanPhamModel.getResult().get(i));
                     }
                 }
+                LogUtils logUtils = Loggerfactory.getLogger();
+                logUtils.log(mangSanPham.size() + "", QuanLySanPhamActivity.this );
+
             } else {
                 Toast.makeText(this, sanPhamModel.getMessage(), Toast.LENGTH_SHORT).show();
             }
