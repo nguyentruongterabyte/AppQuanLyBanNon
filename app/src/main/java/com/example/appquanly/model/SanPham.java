@@ -10,7 +10,6 @@ public class SanPham implements Serializable {
     private int soLuong;
     private String gioiTinh;
     private String mauSac;
-    private Boolean trangThai;
 
     private int daBan;
 
@@ -79,11 +78,4 @@ public class SanPham implements Serializable {
         this.mauSac = mauSac;
     }
 
-    public Boolean getTrangThai() {
-        return trangThai;
-    }
-
-    public void setTrangThai(Boolean trangThai) {
-        this.trangThai = trangThai;
-    }
 }

@@ -6,6 +6,7 @@ public class Utils {
 
     public static final String BASE_URL = "http://192.168.1.2:8000/hatshop/";
 
+    public static final String logType = "toast";
     public static final String BASE_IMAGE_URL = "images/";
 
     // hàm định dạng số lượng đã bán
