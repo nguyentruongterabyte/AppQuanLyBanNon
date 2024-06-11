@@ -88,7 +88,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="@string/productManagerImageDes"
-            android:src="@drawable/product" />
+            android:src="@drawable/location" />
 
         </LinearLayout>
 
