@@ -61,6 +61,8 @@ dependencies {
 
     // google map
     implementation("com.google.android.gms:play-services-maps:18.2.0")
+    // pager
+    implementation("io.github.pilgr:paperdb:2.7.2")
 
 }
 

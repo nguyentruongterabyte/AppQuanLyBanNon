@@ -114,4 +114,25 @@ public interface ApiQuanLy {
     @POST("api/location/create")
     @FormUrlEncoded
     Observable<ResponseObject<Void>> taoTaoDo(@Field("tenViTri") String tenViTri, @Field("kinhDo") Double kinhDo, @Field("viDo") Double viDo);
+
+    // Tài khoản
+    @POST("api/user/login")
+    @FormUrlEncoded
+    Observable<ResponseObject<User>> dangNhap(
+            @Field("email") String email,
+            @Field("password") String password
+    );
+
+    @POST("api/user/reset-password-request")
+    @FormUrlEncoded
+    Observable<ResponseObject<Void>> guiYeuCauResetMatKhau(
+            @Field("email") String email
+    );
+
+    @POST("api/user/refresh-token")
+    @FormUrlEncoded
+    Call<ResponseObject<String>> refreshToken(
+            @Field("refreshToken") String refreshToken
+    );
+
 }

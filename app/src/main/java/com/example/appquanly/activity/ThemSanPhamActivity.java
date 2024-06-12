@@ -57,6 +57,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ProductApiCalls.initialize(this);
         setContentView(R.layout.activity_them_san_pham);
         setControl();
         ActionToolBar();

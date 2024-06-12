@@ -1,5 +1,7 @@
 package com.example.appquanly.networking;
 
+import android.content.Context;
+
 import com.example.appquanly.model.DoanhThu;
 import com.example.appquanly.model.ResponseObject;
 import com.example.appquanly.model.SanPhamThongKe;
@@ -17,8 +19,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class ReportApiCalls {
-    private static final ApiQuanLy apiQL = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
+    private static ApiQuanLy apiQL;
 
+    public static void initialize(Context context) {
+        apiQL = RetrofitClient.getInstance(Utils.BASE_URL, context).create(ApiQuanLy.class);
+    }
     // Doanh thu theo tháng của 1 năm
     public static void getRevenue(int year, Consumer<ResponseObject<List<DoanhThu>>> callback, CompositeDisposable compositeDisposable) {
         compositeDisposable.add(apiQL.layBaoCaoDoanhThu(year)

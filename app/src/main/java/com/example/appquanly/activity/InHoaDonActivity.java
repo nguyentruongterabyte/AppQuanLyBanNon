@@ -20,7 +20,6 @@ import com.example.appquanly.model.SanPham;
 import com.example.appquanly.networking.BillApiCalls;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -42,6 +41,7 @@ public class InHoaDonActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        BillApiCalls.initialize(this);
         setContentView(R.layout.activity_in_hoa_don);
         setControl();
         initData();

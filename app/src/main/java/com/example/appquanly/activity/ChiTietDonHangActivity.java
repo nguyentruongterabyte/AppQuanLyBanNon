@@ -15,14 +15,10 @@ import android.widget.Toast;
 
 import com.example.appquanly.R;
 import com.example.appquanly.adapter.ChiTietDonHangAdapter;
-import com.example.appquanly.adapter.DonHangAdapter;
 import com.example.appquanly.model.DonHang;
-import com.example.appquanly.model.User;
 import com.example.appquanly.networking.OrderApiCalls;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
@@ -40,6 +36,7 @@ public class ChiTietDonHangActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OrderApiCalls.initialize(this);
         setContentView(R.layout.activity_chi_tiet_don_hang);
         setControl();
         initData();

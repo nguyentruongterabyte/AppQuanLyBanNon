@@ -29,6 +29,7 @@ public class XemDonHangActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OrderApiCalls.initialize(this);
         setContentView(R.layout.activity_xem_don_hang);
         initData();
         setControl();

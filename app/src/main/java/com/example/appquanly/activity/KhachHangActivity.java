@@ -25,6 +25,7 @@ public class KhachHangActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserApiCalls.initialize(this);
         setContentView(R.layout.activity_khach_hang);
         setControl();
         ActionToolBar();

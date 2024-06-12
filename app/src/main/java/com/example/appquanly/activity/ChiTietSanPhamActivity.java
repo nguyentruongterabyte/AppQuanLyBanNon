@@ -36,6 +36,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ProductApiCalls.initialize(this);
         setContentView(R.layout.activity_chi_tiet_san_pham);
         setControl();
         initData();

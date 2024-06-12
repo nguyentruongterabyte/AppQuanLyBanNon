@@ -69,4 +69,9 @@ public class FragmentTab2 extends Fragment {
         getOrders();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        OrderApiCalls.initialize(requireContext());
+    }
 }

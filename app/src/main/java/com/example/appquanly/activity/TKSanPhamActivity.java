@@ -76,6 +76,7 @@ public class TKSanPhamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ReportApiCalls.initialize(this);
         setContentView(R.layout.activity_tksan_pham);
         setControl();
         yearsList = generateYearsList();

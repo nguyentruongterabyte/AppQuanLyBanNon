@@ -1,6 +1,8 @@
 package com.example.appquanly.networking;
 
 
+import android.content.Context;
+
 import com.example.appquanly.model.DonHang;
 import com.example.appquanly.model.ResponseObject;
 import com.example.appquanly.retrofit.ApiQuanLy;
@@ -15,8 +17,11 @@ import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class OrderApiCalls {
-    private static final ApiQuanLy apiQL = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
+    private static ApiQuanLy apiQL;
 
+    public static void initialize(Context context) {
+        apiQL = RetrofitClient.getInstance(Utils.BASE_URL, context).create(ApiQuanLy.class);
+    }
     // Xem đơn hàng user id
     public static void getByUserId(int userId, Consumer<ResponseObject<List<DonHang>>> callback, CompositeDisposable compositeDisposable) {
         compositeDisposable.add(apiQL.xemDonHang(userId)

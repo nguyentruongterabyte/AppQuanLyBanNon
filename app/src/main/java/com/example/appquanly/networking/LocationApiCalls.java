@@ -1,5 +1,7 @@
 package com.example.appquanly.networking;
 
+import android.content.Context;
+
 import com.example.appquanly.model.ResponseObject;
 import com.example.appquanly.model.ToaDo;
 import com.example.appquanly.retrofit.ApiQuanLy;
@@ -13,10 +15,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class LocationApiCalls {
-    private static final ApiQuanLy apiBanHang = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
+    private static ApiQuanLy apiQL;
 
+    public static void initialize(Context context) {
+        apiQL = RetrofitClient.getInstance(Utils.BASE_URL, context).create(ApiQuanLy.class);
+    }
     public static void getLocation(Consumer<ResponseObject<ToaDo>> callback, CompositeDisposable compositeDisposable) {
-        compositeDisposable.add(apiBanHang.getToaDo()
+        compositeDisposable.add(apiQL.getToaDo()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback, throwable ->
@@ -27,7 +32,7 @@ public class LocationApiCalls {
     }
 
     public static void createLocation(ToaDo toaDo, Consumer<ResponseObject<Void>> callback, CompositeDisposable compositeDisposable) {
-        compositeDisposable.add(apiBanHang.taoTaoDo(toaDo.getTenViTri(), toaDo.getKinhDo(), toaDo.getViDo())
+        compositeDisposable.add(apiQL.taoTaoDo(toaDo.getTenViTri(), toaDo.getKinhDo(), toaDo.getViDo())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(callback, throwable ->

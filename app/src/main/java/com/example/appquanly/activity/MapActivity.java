@@ -39,6 +39,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocationApiCalls.initialize(this);
         setContentView(R.layout.activity_map);
         initData();
         setControl();

@@ -50,8 +50,8 @@ public class QuanLySanPhamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ProductApiCalls.initialize(this);
         setContentView(R.layout.activity_quan_ly_san_pham);
-        apiQuanLy = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
         setControl();
         ActionToolBar();
         getDanhSachSanPham(page);

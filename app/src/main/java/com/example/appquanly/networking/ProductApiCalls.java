@@ -1,6 +1,8 @@
 package com.example.appquanly.networking;
 
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.example.appquanly.Interface.ImageUploadCallback;
@@ -24,9 +26,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductApiCalls {
-    private static final ApiQuanLy apiQL = RetrofitClient.getInstance(Utils.BASE_URL).create(ApiQuanLy.class);
-
+    private static ApiQuanLy apiQL;
     // Tạo mới sản phẩm
+    public static void initialize(Context context) {
+        apiQL = RetrofitClient.getInstance(Utils.BASE_URL, context).create(ApiQuanLy.class);
+    }
     public static void create(SanPham sanPham, Consumer<ResponseObject<Void>> callback, CompositeDisposable compositeDisposable) {
         compositeDisposable.add(apiQL.taoMoiSanPham(
                         sanPham.getTenSanPham(),

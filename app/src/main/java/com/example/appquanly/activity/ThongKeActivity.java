@@ -63,6 +63,7 @@ public class ThongKeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ReportApiCalls.initialize(this);
         setContentView(R.layout.activity_thong_ke);
         setControl();
         yearsList = generateYearsList();

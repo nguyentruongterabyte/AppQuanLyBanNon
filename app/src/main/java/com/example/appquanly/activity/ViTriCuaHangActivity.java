@@ -30,6 +30,7 @@ public class ViTriCuaHangActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocationApiCalls.initialize(this);
         setContentView(R.layout.activity_vi_tri_cua_hang);
         setControl();
         ActionToolBar();
@@ -45,25 +46,19 @@ public class ViTriCuaHangActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        double kinhDo = getIntent().getDoubleExtra("kinhDo", -999);
-        double viDo = getIntent().getDoubleExtra("viDo", -999);
 
-        if (kinhDo != -999 && viDo != -999) {
-            toaDo = new ToaDo(kinhDo, viDo, "hat shop");
-        } else {
 
-            LocationApiCalls.getLocation(toaDoModel -> {
-                if (toaDoModel.getStatus() == 200) {
-                    toaDo = toaDoModel.getResult();
-                    edtTenViTri.setText(toaDo.getTenViTri());
-                    edtKinhDo.setText(String.valueOf(toaDo.getKinhDo()));
-                    edtViDo.setText(String.valueOf(toaDo.getViDo()));
-                } else {
-                    Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
-                }
+        LocationApiCalls.getLocation(toaDoModel -> {
+            if (toaDoModel.getStatus() == 200) {
+                toaDo = toaDoModel.getResult();
+                edtTenViTri.setText(toaDo.getTenViTri());
+                edtKinhDo.setText(String.valueOf(toaDo.getKinhDo()));
+                edtViDo.setText(String.valueOf(toaDo.getViDo()));
+            } else {
+                Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
+            }
 
-            }, compositeDisposable);
-        }
+        }, compositeDisposable);
 
     }
 

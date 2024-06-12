@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appquanly.R;
 
+import io.paperdb.Paper;
+
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends AppCompatActivity {
 
@@ -16,6 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         Thread thread;
+        Paper.init(this);
         thread = new Thread() {
             public void run() {
                 try {
@@ -23,9 +26,15 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     System.out.println("error" + e.getMessage());
                 } finally {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if (Paper.book().read("user") == null) {
+                        Intent login = new Intent(getApplicationContext(), DangNhapActivity.class);
+                        startActivity(login);
+                        finish();
+                    } else {
+                        Intent home = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(home);
+                        finish();
+                    }
                 }
             }
         };

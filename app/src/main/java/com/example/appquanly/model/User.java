@@ -9,6 +9,13 @@ public class User implements Serializable {
     private String username;
     private String mobile;
 
+    private String password;
+    private String accessToken;
+    private String refreshToken;
+
+    private int roleId;
+
+
     public User(int id, String email, String username, String mobile) {
         this.id = id;
         this.email = email;
@@ -16,6 +23,30 @@ public class User implements Serializable {
         this.mobile = mobile;
     }
     public User() {
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     public int getId() {
@@ -48,6 +79,14 @@ public class User implements Serializable {
 
     public String getMobile() {
         return mobile;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 }
 
