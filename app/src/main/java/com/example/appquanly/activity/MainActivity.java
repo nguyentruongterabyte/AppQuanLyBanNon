@@ -9,9 +9,10 @@ import android.widget.ImageButton;
 
 import com.example.appquanly.R;
 
-public class MainActivity extends AppCompatActivity {
-    ImageButton btnSanPham, btnKhachHang, btnThongKe, btnDH, btnViTri;
+import io.paperdb.Paper;
 
+public class MainActivity extends AppCompatActivity {
+    ImageButton btnSanPham, btnKhachHang, btnThongKe, btnDH, btnViTri, btnDangXuat;
 
 
     @Override
@@ -66,6 +67,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnDangXuat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Paper.book().delete("user");
+                Paper.book().delete("isLogin");
+                Intent dangNhap = new Intent(getApplicationContext(), DangNhapActivity.class);
+                startActivity(dangNhap);
+                finish();
+            }
+        });
     }
 
     private void setControl() {
@@ -74,5 +86,6 @@ public class MainActivity extends AppCompatActivity {
         btnThongKe = findViewById(R.id.btnTK);
         btnDH = findViewById(R.id.btnDH);
         btnViTri = findViewById(R.id.btnViTri);
+        btnDangXuat = findViewById(R.id.btnDangXuat);
     }
 }

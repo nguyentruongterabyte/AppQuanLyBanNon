@@ -31,7 +31,7 @@ public class DangNhapActivity extends AppCompatActivity {
     ToggleButton toggleButtonVisibility;
     ProgressBar progressBar;
     TextInputEditText edtPassword, edtEmail;
-    TextView tvChuyenDangKy, tvResetPass;
+    TextView tvResetPass;
     AppCompatButton btnDangNhap;
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -114,7 +114,6 @@ public class DangNhapActivity extends AppCompatActivity {
                     editor.putString("refreshToken", Utils.currentUser.getRefreshToken());
                     editor.putString("accessToken", Utils.currentUser.getAccessToken());
                     editor.apply();
-                    progressBar.setVisibility(View.INVISIBLE);
                     // Nếu đăng nhập thành công, chuyển về màn hình trang chủ
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
@@ -125,6 +124,7 @@ public class DangNhapActivity extends AppCompatActivity {
                 Toast.makeText(DangNhapActivity.this, userModel.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
             }
+            progressBar.setVisibility(View.INVISIBLE);
         }, compositeDisposable);
     }
 

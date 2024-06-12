@@ -82,14 +82,24 @@
 
         <ImageButton
             android:id="@+id/btnViTri"
-            android:layout_width="1dp"
+            android:layout_width="0dp"
             android:layout_height="140dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="@string/productManagerImageDes"
             android:src="@drawable/location" />
+        <ImageButton
+            android:id="@+id/btnDangXuat"
+            android:layout_width="0dp"
+            android:layout_height="140dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/productManagerImageDes"
+            android:src="@drawable/logout" />
 
-        </LinearLayout>
+    </LinearLayout>
+
 
 </LinearLayout>
