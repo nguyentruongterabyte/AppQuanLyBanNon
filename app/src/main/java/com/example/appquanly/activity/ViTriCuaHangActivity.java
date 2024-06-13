@@ -47,18 +47,25 @@ public class ViTriCuaHangActivity extends AppCompatActivity {
 
     private void initData() {
 
+        double kinhDo = getIntent().getDoubleExtra("kinhDo", -1000);
+        double viDo = getIntent().getDoubleExtra("viDo", -1000);
 
-        LocationApiCalls.getLocation(toaDoModel -> {
-            if (toaDoModel.getStatus() == 200) {
-                toaDo = toaDoModel.getResult();
-                edtTenViTri.setText(toaDo.getTenViTri());
-                edtKinhDo.setText(String.valueOf(toaDo.getKinhDo()));
-                edtViDo.setText(String.valueOf(toaDo.getViDo()));
-            } else {
-                Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+        if (kinhDo == -1000 && viDo == -1000) {
+            LocationApiCalls.getLocation(toaDoModel -> {
+                if (toaDoModel.getStatus() == 200) {
+                    toaDo = toaDoModel.getResult();
+                    edtTenViTri.setText(toaDo.getTenViTri());
+                    edtKinhDo.setText(String.valueOf(toaDo.getKinhDo()));
+                    edtViDo.setText(String.valueOf(toaDo.getViDo()));
+                } else {
+                    Toast.makeText(this, toaDoModel.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
-        }, compositeDisposable);
+            }, compositeDisposable);
+        } else {
+            edtViDo.setText(String.valueOf(viDo));
+            edtKinhDo.setText(String.valueOf(kinhDo));
+        }
 
     }
 
